@@ -486,7 +486,7 @@
     CALL ephbloch2wanp_mem(nbndsub, nmodes, xqc, nqc, irvec_k, irvec_g, nrr_k, nrr_g)
     !
     IF (epwwrite) THEN
-      CALL epw_write(nrr_k, nrr_q, nrr_g, w_centers)
+      CALL epw_write(nrr_k, nrr_q, nrr_g, w_centers,irvec_k,ndegen_k,irvec_q,ndegen_q,irvec_g,ndegen_g)
     ENDIF
     !
     DEALLOCATE(epmatq, STAT = ierr)

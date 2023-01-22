@@ -111,7 +111,8 @@
     !----------------------------------------------------------------------
     !
     !----------------------------------------------------------------------
-    SUBROUTINE epw_write(nrr_k, nrr_q, nrr_g, w_centers)
+    SUBROUTINE epw_write(nrr_k, nrr_q, nrr_g, w_centers, \
+            irvec_k, ndegen_k, irvec_q, ndegen_q, irvec_g, ndegen_g)
     !----------------------------------------------------------------------
     !!
     !! Routine to write files on real-space grid for fine grid interpolation
@@ -142,6 +143,19 @@
     !! Number of WS vectors for the electron-phonons
     REAL(KIND = DP), INTENT(in) :: w_centers(3, nbndsub)
     !! Wannier center
+    INTEGER, INTENT(in) :: irvec_k(3, nrr_k)
+    !! Coordinates of WS points
+    INTEGER, INTENT(in) :: ndegen_k(nrr_k)
+    !! Degeneracies of WS points
+    INTEGER, INTENT(in) :: irvec_q(3, nrr_q)
+    !! Coordinates of WS points
+    INTEGER, INTENT(in) :: ndegen_q(nrr_q)
+    !! Degeneracies of WS points
+    INTEGER, INTENT(in) :: irvec_g(3, nrr_g)
+    !! Coordinates of WS points
+    INTEGER, INTENT(in) :: ndegen_g(nrr_g)
+    !! Degeneracies of WS points
+
     !
     ! Local variables
     CHARACTER(LEN = 256) :: filint
@@ -219,6 +233,17 @@
           ENDDO
         ENDDO
       ENDDO
+
+      ! Stepan Tsirkin : write also irvec
+        DO irk = 1, nrr_k
+            WRITE(epwdata,*) irvec_k(:,irk), ndegen_k(irk)
+        ENDDO
+        DO irq = 1, nrr_q
+            WRITE(epwdata,*) irvec_q(:,irq), ndegen_q(irq)
+        ENDDO
+        DO irg = 1, nrr_g
+            WRITE(epwdata,*) irvec_g(:,irg), ndegen_g(irg)
+        ENDDO
       !
       IF (etf_mem == 0) THEN
         ! SP: The call to epmatwp is now inside the loop
